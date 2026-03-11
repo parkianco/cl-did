@@ -16,12 +16,10 @@
 ;;; Constants
 ;;; ============================================================================
 
-(defconstant +did-context+
-  (if (boundp '+did-context+) (symbol-value '+did-context+) "https://www.w3.org/ns/did/v1")
+(defparameter +did-context+ "https://www.w3.org/ns/did/v1"
   "W3C DID Core context URL.")
 
-(defconstant +proof-type-secp256k1+
-  (if (boundp '+proof-type-secp256k1+) (symbol-value '+proof-type-secp256k1+) "EcdsaSecp256k1Signature2019")
+(defparameter +proof-type-secp256k1+ "EcdsaSecp256k1Signature2019"
   "secp256k1 ECDSA signature proof type.")
 
 ;;; ============================================================================
@@ -80,7 +78,7 @@
 ;;; Base58 Encoding (Bitcoin alphabet)
 ;;; ============================================================================
 
-(defconstant +base58-alphabet+
+(defparameter +base58-alphabet+
   "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
   "Bitcoin Base58 alphabet (no 0, O, I, l).")
 
@@ -114,10 +112,11 @@
                              while (char= c #\1)
                              count t))
          ;; Convert from base58 to big integer
-         (num (loop for c across string
+         (num (loop with n = 0
+                    for c across string
                     for i = (position c +base58-alphabet+)
-                    when (null i) do (error "Invalid Base58 character: ~A" c)
-                    for n = i then (+ (* n 58) i)
+                    do (unless i (error "Invalid Base58 character: ~A" c))
+                       (setf n (+ (* n 58) i))
                     finally (return n)))
          ;; Convert to bytes
          (bytes nil))
@@ -177,7 +176,7 @@
 ;;; SHA-256 Implementation (Pure Common Lisp)
 ;;; ============================================================================
 
-(defconstant +sha256-k+
+(defparameter *sha256-k*
   (let ((arr (make-array 64 :element-type '(unsigned-byte 32))))
     (loop for k in '(#x428a2f98 #x71374491 #xb5c0fbcf #xe9b5dba5
                      #x3956c25b #x59f111f1 #x923f82a4 #xab1c5ed5
@@ -200,7 +199,7 @@
     arr)
   "SHA-256 round constants.")
 
-(defconstant +sha256-initial-hash+
+(defparameter *sha256-initial-hash*
   #(#x6a09e667 #xbb67ae85 #x3c6ef372 #xa54ff53a
     #x510e527f #x9b05688c #x1f83d9ab #x5be0cd19)
   "SHA-256 initial hash values.")
@@ -281,7 +280,7 @@
     ;; Main loop
     (loop for i from 0 below 64
           for t1 = (logand (+ h (sha256-sigma1 e) (sha256-ch e f g)
-                              (aref +sha256-k+ i) (aref w i))
+                              (aref *sha256-k* i) (aref w i))
                            #xffffffff)
           for t2 = (logand (+ (sha256-sigma0 a) (sha256-maj a b c))
                            #xffffffff)
@@ -303,7 +302,7 @@
   "Compute SHA-256 hash of byte array.
    Returns 32-byte hash."
   (let* ((padded (sha256-pad-message message))
-         (hash (copy-seq +sha256-initial-hash+))
+         (hash (copy-seq *sha256-initial-hash*))
          (result (make-array 32 :element-type '(unsigned-byte 8))))
     ;; Process each 64-byte block
     (loop for i from 0 below (length padded) by 64
@@ -321,15 +320,15 @@
 ;;; RIPEMD-160 Implementation (Pure Common Lisp)
 ;;; ============================================================================
 
-(defconstant +ripemd160-k-left+
+(defparameter *ripemd160-k-left*
   #(#x00000000 #x5a827999 #x6ed9eba1 #x8f1bbcdc #xa953fd4e)
   "RIPEMD-160 left round constants.")
 
-(defconstant +ripemd160-k-right+
+(defparameter *ripemd160-k-right*
   #(#x50a28be6 #x5c4dd124 #x6d703ef3 #x7a6d76e9 #x00000000)
   "RIPEMD-160 right round constants.")
 
-(defconstant +ripemd160-r-left+
+(defparameter *ripemd160-r-left*
   #(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
     7 4 13 1 10 6 15 3 12 0 9 5 2 14 11 8
     3 10 14 4 9 15 8 1 2 7 0 6 13 11 5 12
@@ -337,7 +336,7 @@
     4 0 5 9 7 12 2 10 14 1 3 8 11 6 15 13)
   "RIPEMD-160 left message word selection.")
 
-(defconstant +ripemd160-r-right+
+(defparameter *ripemd160-r-right*
   #(5 14 7 0 9 2 11 4 13 6 15 8 1 10 3 12
     6 11 3 7 0 13 5 10 14 15 8 12 4 9 1 2
     15 5 1 3 7 14 6 9 11 8 12 2 10 0 4 13
@@ -345,7 +344,7 @@
     12 15 10 4 1 5 8 7 6 2 13 14 0 3 9 11)
   "RIPEMD-160 right message word selection.")
 
-(defconstant +ripemd160-s-left+
+(defparameter *ripemd160-s-left*
   #(11 14 15 12 5 8 7 9 11 13 14 15 6 7 9 8
     7 6 8 13 11 9 7 15 7 12 15 9 11 7 13 12
     11 13 6 7 14 9 13 15 14 8 13 6 5 12 7 5
@@ -353,7 +352,7 @@
     9 15 5 11 6 8 13 12 5 12 13 14 11 8 5 6)
   "RIPEMD-160 left rotation amounts.")
 
-(defconstant +ripemd160-s-right+
+(defparameter *ripemd160-s-right*
   #(8 9 9 11 13 15 15 5 7 7 8 11 14 14 12 6
     9 13 15 7 12 8 9 11 7 7 12 7 6 15 13 11
     9 7 15 11 8 6 6 14 12 13 5 14 13 13 7 5
@@ -413,11 +412,11 @@
           for round = (truncate j 16)
           for t-val = (logand (+ al
                                  (ripemd160-f j bl cl dl)
-                                 (aref x (aref +ripemd160-r-left+ j))
-                                 (aref +ripemd160-k-left+ round))
+                                 (aref x (aref *ripemd160-r-left* j))
+                                 (aref *ripemd160-k-left* round))
                               #xffffffff)
           do (setf t-val (logand (+ (ripemd160-rotl t-val
-                                                    (aref +ripemd160-s-left+ j))
+                                                    (aref *ripemd160-s-left* j))
                                     el)
                                  #xffffffff))
              (setf al el el dl
@@ -428,11 +427,11 @@
           for round = (truncate j 16)
           for t-val = (logand (+ ar
                                  (ripemd160-f (- 79 j) br cr dr)
-                                 (aref x (aref +ripemd160-r-right+ j))
-                                 (aref +ripemd160-k-right+ round))
+                                 (aref x (aref *ripemd160-r-right* j))
+                                 (aref *ripemd160-k-right* round))
                               #xffffffff)
           do (setf t-val (logand (+ (ripemd160-rotl t-val
-                                                    (aref +ripemd160-s-right+ j))
+                                                    (aref *ripemd160-s-right* j))
                                     er)
                                  #xffffffff))
              (setf ar er er dr
