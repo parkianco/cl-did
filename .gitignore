@@ -1,0 +1,35 @@
+# FASL files (compiled Lisp)
+*.fasl
+*.fas
+*.lib
+*.dx64fsl
+*.lx64fsl
+*.x86f
+*.sparcf
+*.sse2f
+
+# ASDF cache
+.cache/
+
+# Backup files
+*~
+\#*\#
+.\#*
+
+# Editor files
+.idea/
+*.swp
+*.swo
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+
+# Test output
+test-results/
+coverage/

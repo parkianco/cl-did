@@ -1,0 +1,20 @@
+cl-did - W3C DID Implementation for Common Lisp
+===============================================
+
+This software was extracted from the CLPIC (Common Lisp P2P Intellectual
+Property Chain) project.
+
+Original source: src/identity/did/
+Original project: https://github.com/example/clpic
+
+Cryptographic implementations (SHA-256, RIPEMD-160, secp256k1) are original
+pure Common Lisp implementations based on public specifications:
+
+- SHA-256: FIPS 180-4
+- RIPEMD-160: ISO/IEC 10118-3:2004
+- secp256k1: SEC 2: Recommended Elliptic Curve Domain Parameters
+
+Standards compliance:
+- W3C DID Core 1.0: https://www.w3.org/TR/did-core/
+- did:key Method: https://w3c-ccg.github.io/did-method-key/
+- did:web Method: https://w3c-ccg.github.io/did-method-web/
