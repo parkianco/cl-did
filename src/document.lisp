@@ -1,3 +1,6 @@
+;;;; Copyright (c) 2024-2026 Parkian Company LLC. All rights reserved.
+;;;; SPDX-License-Identifier: BSD-3-Clause
+
 ;;;; cl-did/src/document.lisp - DID Document structures
 ;;;;
 ;;;; Defines W3C DID Core 1.0 compliant data structures:

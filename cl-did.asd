@@ -5,7 +5,7 @@
 
 (asdf:defsystem #:cl-did
   :description "W3C DID (Decentralized Identifier) implementation for Common Lisp"
-  :author "CLPIC Contributors"
+  :author "Parkian Company LLC"
   :license "MIT"
   :version "1.0.0"
   :serial t
