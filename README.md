@@ -185,4 +185,3 @@ MIT License - See LICENSE file.
 
 ## Origin
 
-Extracted from [CLPIC](https://github.com/example/clpic) - Common Lisp P2P Intellectual Property Chain.

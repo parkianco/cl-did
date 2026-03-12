@@ -5,7 +5,6 @@ This software was extracted from the CLPIC (Common Lisp P2P Intellectual
 Property Chain) project.
 
 Original source: src/identity/did/
-Original project: https://github.com/example/clpic
 
 Cryptographic implementations (SHA-256, RIPEMD-160, secp256k1) are original
 pure Common Lisp implementations based on public specifications:
