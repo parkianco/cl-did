@@ -1,3 +1,6 @@
+;; Copyright (c) 2024-2026 Parkian Company LLC. All rights reserved.
+;; SPDX-License-Identifier: BSD-3-Clause
+
 ;;;; cl-did.asd - W3C DID Implementation for Common Lisp
 ;;;;
 ;;;; A standalone, pure Common Lisp implementation of W3C Decentralized Identifiers.
@@ -7,7 +10,7 @@
   :description "W3C DID (Decentralized Identifier) implementation for Common Lisp"
   :author "Parkian Company LLC"
   :license "MIT"
-  :version "1.0.0"
+  :version "0.1.0"
   :serial t
   :components ((:file "package")
                (:module "src"
