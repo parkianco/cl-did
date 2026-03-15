@@ -8,18 +8,16 @@
 
 (asdf:defsystem #:cl-did
   :description "W3C DID (Decentralized Identifier) implementation for Common Lisp"
-  :author "Parkian Company LLC"
-  :license "MIT"
+  :author "Park Ian Co"
+  :license "Apache-2.0"
   :version "0.1.0"
   :serial t
   :components ((:file "package")
                (:module "src"
-                :serial t
-                :components ((:file "util")
-                             (:file "document")
-                             (:file "methods")
-                             (:file "resolution")
-                             (:file "verification")))))
+                :components ((:file "package")
+                             (:file "conditions" :depends-on ("package"))
+                             (:file "types" :depends-on ("package"))
+                             (:file "cl-did" :depends-on ("package" "conditions" "types")))))))
 
 (asdf:defsystem #:cl-did/test
   :description "Tests for cl-did"
