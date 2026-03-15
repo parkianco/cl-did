@@ -15,7 +15,11 @@
 (defpackage #:cl-did
   (:use #:cl)
   (:export
-   #:with-did-timing
+   #:identity-list
+   #:flatten
+   #:map-keys
+   #:now-timestamp
+#:with-did-timing
    #:did-batch-process
    #:did-health-check;; =========================================================================
    ;; DID Document
